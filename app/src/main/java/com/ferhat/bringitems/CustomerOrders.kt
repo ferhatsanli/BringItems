@@ -22,6 +22,10 @@ class CustomerOrders {
         }
     }
 
+    fun clearAll() {
+        orders.clear()
+    }
+
     fun getTotal(): Float = totalPrice.value
 
     fun getOrders(): Map<Product, Int> = orders

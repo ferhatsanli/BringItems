@@ -5,6 +5,8 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
@@ -24,8 +26,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.ferhat.bringitems.ui.theme.BringItemsTheme
 import kotlinx.coroutines.launch
+import ui.ListOperationsBar
 import ui.OrderList
 import ui.ProductsGrid
+import androidx.compose.ui.platform.LocalContext
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,6 +41,7 @@ class MainActivity : ComponentActivity() {
             val pagerState = rememberPagerState(pageCount = { tabs.size })
             val scope = rememberCoroutineScope()
             val bringItemList = remember { mutableStateOf(CustomerOrders()) }
+
             BringItemsTheme {
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
@@ -76,7 +82,32 @@ class MainActivity : ComponentActivity() {
                             ) { prod ->
                                 bringItemList.value.plus(prod)
                             }
-                            1 -> OrderList(bringItemList.value, Modifier.padding(innerPadding))
+
+                            1 -> {
+                                val context = LocalContext.current
+                                Column(
+                                    Modifier
+                                        .padding(innerPadding)
+                                        .fillMaxSize(),
+                                    verticalArrangement = Arrangement.SpaceBetween
+                                ) {
+                                    OrderList(
+                                        bringItemList.value,
+                                        Modifier
+                                            .weight(1f)
+                                            .padding(innerPadding)
+                                    )
+                                    ListOperationsBar(
+                                        onShareButtonClicked = {
+                                            shareText(context, exportTheList(bringItemList))
+                                        },
+                                        onClearButtonClicked = {
+                                            bringItemList.value.clearAll()
+                                        }
+                                    )
+
+                                }
+                            }
                         }
                     }
                 }

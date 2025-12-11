@@ -1,6 +1,7 @@
 package ui
 
 import CustomerOrders
+import Product
 import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -39,77 +40,91 @@ import com.ferhat.bringitems.shareText
 @Composable
 // key: Product, value: amount
 fun OrderList(theList: CustomerOrders, modifier: Modifier = Modifier) {
-    val fontSize = 22.sp
-    val iconSize = 30.dp
-    LazyColumn (
+    LazyColumn(
         modifier = modifier
             .fillMaxWidth()
-//            .fillMaxHeight()
     )
     {
         items(
             items = theList.getOrdersList(),
-            key = {it.first}
+            key = { it.first }
         ) { (prod, amount) ->
-            Row (
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ){
-                Row {
-                    Card (
-                      modifier = Modifier
-                          .clickable{
-                              theList.plus(prod)
-                          }
-                    ) {
-                        Icon(
-                            modifier = Modifier.size(iconSize),
-                            imageVector = Icons.Default.Add,
-                            contentDescription = "add",
-                            tint = Color.Green
-                        )
-                    }
-                    Card (
-                        modifier = Modifier
-                            .clickable{
-                                theList.minus(prod)
-                            }
-                    ) {
-                        Icon(
-                            modifier = Modifier.size(iconSize),
-                            imageVector = Icons.Default.ArrowDropDown,
-                            contentDescription = "subtract",
-                            tint = Color.Green
-                        )
-                    }
+            OrderRow(theList, prod, amount, true)
+        }
+    }
+}
 
-                }
+@Composable
+fun OrderRow(
+    theList: CustomerOrders,
+    prod: Product,
+    amount: Int,
+    showDeleteButton: Boolean = true
+) {
+    val fontSize = 22.sp
+    val iconSize = 30.dp
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween
+    )
+    {
+        Row {
+            Card(
+                modifier = Modifier
+                    .clickable {
+                        theList.plus(prod)
+                    }
+            ) {
+                Icon(
+                    modifier = Modifier.size(iconSize),
+                    imageVector = Icons.Default.Add,
+                    contentDescription = "add",
+                    tint = Color.Green
+                )
+            }
+            Card(
+                modifier = Modifier
+                    .clickable {
+                        theList.minus(prod)
+                    }
+            ) {
+                Icon(
+                    modifier = Modifier.size(iconSize),
+                    imageVector = Icons.Default.ArrowDropDown,
+                    contentDescription = "subtract",
+                    tint = Color.Green
+                )
+            }
+
+        }
 //                Row(horizontalArrangement = Arrangement.SpaceBetween){
 //                }
-                    Text(text = prod.title, fontSize = fontSize)
-                    Text(text = "x$amount", fontSize = fontSize)
-                Card(
-                    modifier = Modifier
-                        .clickable {
-                            theList.minus(prod, amount)
-                        }
-                ){
-                    Icon(
-                        modifier = Modifier.size(iconSize),
-                        imageVector = Icons.Default.Close,
-                        contentDescription = "remove",
-                        tint = Color.Red,
-                    )
+        Text(text = prod.title, fontSize = fontSize)
+        Text(text = "x$amount", fontSize = fontSize)
+        Card(
+            modifier = Modifier
+                .clickable {
+                    theList.minus(prod, amount)
                 }
+        ) {
+            if (showDeleteButton) {
+                Icon(
+                    modifier = Modifier.size(iconSize),
+                    imageVector = Icons.Default.Close,
+                    contentDescription = "remove",
+                    tint = Color.Red,
+                )
             }
         }
     }
 }
 
 @Composable
-fun ListOperationsBar(modifier: Modifier = Modifier,
-                      onShareButtonClicked: () -> Unit = {},
-                      onClearButtonClicked: () -> Unit = {}) {
+fun ListOperationsBar(
+    modifier: Modifier = Modifier,
+    onShareButtonClicked: () -> Unit = {},
+    onClearButtonClicked: () -> Unit = {}
+) {
     val fontSize = 20.sp // 16
     val iconSize = 24.dp // 20
     Column(modifier = modifier) {
@@ -161,7 +176,7 @@ fun ListOperationsBar(modifier: Modifier = Modifier,
 
 @Preview(showBackground = true)
 @Composable
-fun PreviewListOperationsBar(){
+fun PreviewListOperationsBar() {
     ListOperationsBar()
 }
 

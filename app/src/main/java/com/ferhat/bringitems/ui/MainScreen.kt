@@ -39,6 +39,7 @@ fun MainScreen() {
         val pagerState = rememberPagerState(pageCount = { tabs.size })
         val scope = rememberCoroutineScope()
         val bringItemList = remember { mutableStateOf(CustomerOrders()) }
+//        var theProduct: Product = Product
         Scaffold(
             modifier = Modifier.fillMaxSize(),
             bottomBar = {

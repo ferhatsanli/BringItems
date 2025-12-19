@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
 fun ProductCard(
@@ -54,3 +55,8 @@ fun ProductCard(
     }
 }
 
+@Preview(showBackground = true)
+@Composable
+fun PreviewProductCard() {
+    ProductCard(Product.COCA_COLA)
+}

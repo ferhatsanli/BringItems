@@ -5,14 +5,14 @@ class CustomerOrders {
     private val orders = mutableStateMapOf<Product, Int>()
     private var totalPrice = mutableStateOf(0.0f)
     private var recentOrder = mutableStateOf(Product.COCA_COLA)
-    private var recentOrderAmount = 0
+    private var recentOrderAmount = mutableStateOf(0)
 
     fun plus(product: Product, amount: Int = 1, updateRecentOrder: Boolean = false) {
         orders[product] = (orders[product] ?: 0) + amount
         totalPrice.value += product.price * amount
         if (updateRecentOrder) {
             recentOrder.value = product
-            recentOrderAmount = orders[product] ?: 0
+            recentOrderAmount.value = orders[product] ?: 0
         }
     }
 
@@ -25,6 +25,8 @@ class CustomerOrders {
                 orders.remove(product)
             }
             totalPrice.value -= product.price * amount
+            if (product == recentOrder.value)
+                recentOrderAmount.value = orders[product] ?: 0
         }
     }
 
@@ -34,7 +36,7 @@ class CustomerOrders {
 
     fun getRecentOrder(): Product = recentOrder.value
 
-    fun getRecentOrderAmount(): Int = recentOrderAmount
+    fun getRecentOrderAmount(): Int = recentOrderAmount.value
 
     fun getTotal(): Float = totalPrice.value
 

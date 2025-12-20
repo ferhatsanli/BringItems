@@ -64,7 +64,7 @@ fun OrderRow(
     val fontSize = 22.sp
     val iconSize = 30.dp
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth().padding(8.dp),
         horizontalArrangement = Arrangement.SpaceBetween
     )
     {
@@ -72,7 +72,7 @@ fun OrderRow(
             Card(
                 modifier = Modifier
                     .clickable {
-                        theList.plus(prod)
+                        theList.plus(prod, updateRecentOrder = true)
                     }
             ) {
                 Icon(

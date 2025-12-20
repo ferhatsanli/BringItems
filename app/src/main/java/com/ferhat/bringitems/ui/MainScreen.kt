@@ -3,7 +3,6 @@ package com.ferhat.bringitems.ui
 import CustomerOrders
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
@@ -22,6 +21,10 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.ferhat.bringitems.ProductCategory
 import com.ferhat.bringitems.exportTheList
 import com.ferhat.bringitems.shareText
 import com.ferhat.bringitems.ui.theme.BringItemsTheme
@@ -39,7 +42,8 @@ fun MainScreen() {
         val pagerState = rememberPagerState(pageCount = { tabs.size })
         val scope = rememberCoroutineScope()
         val bringItemList = remember { mutableStateOf(CustomerOrders()) }
-//        var theProduct: Product = Product
+        val navController = rememberNavController()
+        val targetCategory = remember { mutableStateOf(ProductCategory.ALL) }
         Scaffold(
             modifier = Modifier.fillMaxSize(),
             bottomBar = {
@@ -77,12 +81,27 @@ fun MainScreen() {
                         Column(
                             modifier = Modifier.padding(top = innerPadding.calculateTopPadding()),
                         ) {
-                            ProductsGrid(
-                                modifier = Modifier.weight(1f),
-                                inputItems = Product.entries
-                            ) { prod ->
-                                bringItemList.value.plus(prod, updateRecentOrder = true)
+                            NavHost(
+                                navController = navController,
+                                startDestination = NavProducts.CATEGORIES.name,
+                                modifier = Modifier.weight(1f)
+                            ){
+                                composable(NavProducts.CATEGORIES.name){
+                                    CategoriesPage(ProductCategory.entries){ selected ->
+                                        targetCategory.value = selected
+                                        navController.navigate(NavProducts.ITEMS.name)
+                                    }
+                                }
+                                composable(NavProducts.ITEMS.name) {
+                                    ProductsGrid(
+                                        modifier = Modifier.weight(1f),
+                                        inputItems = Product.entries.filter{ it.categories.contains(targetCategory.value)}
+                                    ) { prod ->
+                                        bringItemList.value.plus(prod, updateRecentOrder = true)
+                                    }
+                                }
                             }
+
                             if (bringItemList.value.getOrders().isNotEmpty()){
                                 OrderRow(
                                     theList = bringItemList.value,

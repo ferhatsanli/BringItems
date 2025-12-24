@@ -2,6 +2,7 @@ package com.ferhat.bringitems.ui
 
 import CustomerOrders
 import android.util.Log
+import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -14,15 +15,9 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.PrimaryTabRow
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SecondaryTabRow
 import androidx.compose.material3.Tab
-import androidx.compose.material3.TabRow
-import androidx.compose.material3.TabRowDefaults
-import androidx.compose.material3.TabRowDefaults.PrimaryIndicator
-import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
@@ -31,8 +26,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -41,14 +34,12 @@ import com.ferhat.bringitems.exportTheList
 import com.ferhat.bringitems.shareText
 import com.ferhat.bringitems.ui.theme.BringItemsTheme
 import kotlinx.coroutines.launch
-import toDp
 import ui.ProductsGrid
 
 @OptIn(ExperimentalMaterial3Api::class)
-//@Preview(showBackground = true)
 @Composable
 fun MainScreen() {
-
+    val TAG = "BAKBURA"
     BringItemsTheme {
         val tabs = listOf("Products", "List")
         val pagerState = rememberPagerState(pageCount = { tabs.size })
@@ -56,11 +47,16 @@ fun MainScreen() {
         val bringItemList = remember { mutableStateOf(CustomerOrders()) }
         val navController = rememberNavController()
         val targetCategory = remember { mutableStateOf(ProductCategory.ALL) }
-//        BackHandler {
-//            if (navController.previousBackStackEntry != null) {
-//                navController.navigateUp()
-//            }
-//        }
+        val context = LocalContext.current
+        BackHandler {
+            if (navController.previousBackStackEntry == null) {
+                bringItemList.value.saveToPreferences(context)
+                Log.i(TAG, "MainScreen: LIST HAS BEEN SAVED. Size: ${bringItemList.value.getSize()}")
+                (context as? ComponentActivity)?.finish()
+            }
+//            navController.popBackStack()
+            navController.navigateUp()
+        }
         Scaffold(
             modifier = Modifier.fillMaxSize(),
             topBar = {
@@ -141,7 +137,6 @@ fun MainScreen() {
                     }
 
                     1 -> {
-                        val context = LocalContext.current
                         Column(
                             Modifier
                                 //.padding(top = innerPadding.calculateTopPadding())
@@ -155,6 +150,12 @@ fun MainScreen() {
                                 //.padding(innerPadding)
                             )
                             ListOperationsBar(
+                                onSaveButtonClicked = {
+                                    bringItemList.value.saveToPreferences(context)
+                                },
+                                onLoadButtonClicked = {
+                                    bringItemList.value = CustomerOrders.loadFromPreferences(context)
+                                },
                                 onShareButtonClicked = {
                                     if (bringItemList.value.getSize() > 0)
                                         shareText(context, exportTheList(bringItemList))

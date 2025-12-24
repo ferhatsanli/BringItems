@@ -1,13 +1,18 @@
-import android.util.Log
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
+import com.google.gson.Gson
+import android.content.Context
+import android.content.SharedPreferences
+import android.util.Log
 import kotlin.collections.sortedBy
+import java.io.Serializable
 
-class CustomerOrders {
+val TAG = "BAKBURA"
+class CustomerOrders : Serializable {
     private val orders = mutableStateMapOf<Product, Int>()
-    private var totalPrice = mutableStateOf(0.0f)
-    private var recentOrder = mutableStateOf(Product.COCA_COLA)
-    private var recentOrderAmount = mutableStateOf(0)
+    @Transient private var totalPrice = mutableStateOf(0.0f)
+    @Transient private var recentOrder = mutableStateOf(Product.COCA_COLA)
+    @Transient private var recentOrderAmount = mutableStateOf(0)
 
     fun plus(product: Product, amount: Int = 1, updateRecentOrder: Boolean = false) {
         orders[product] = (orders[product] ?: 0) + amount
@@ -49,8 +54,34 @@ class CustomerOrders {
 
     fun getSortedOrdersList(): List<Pair<Product, Int>> = getOrdersList()
         .sortedBy { it.first.name }
-            .groupBy { it.first.categories }
-            .entries
-            .sortedBy { it.key.first() }
-            .flatMap { it.value }
+        .groupBy { it.first.categories }
+        .entries
+        .sortedBy { it.key.first() }
+        .flatMap { it.value }
+
+    fun saveToPreferences(context: Context) {
+        if (orders.size > 0) {
+            val prefs: SharedPreferences =
+                context.getSharedPreferences("orders", Context.MODE_PRIVATE)
+            val gson = Gson()
+            val json = gson.toJson(this)
+            prefs.edit().putString("order_list", json).apply()
+        }
+    }
+
+    companion object {
+        fun loadFromPreferences(context: Context): CustomerOrders {
+            val prefs: SharedPreferences =
+                context.getSharedPreferences("orders", Context.MODE_PRIVATE)
+            Log.i(TAG, "loadFromPreferences: prefs done")
+            val gson = Gson()
+            Log.i(TAG, "loadFromPreferences: gson done")
+            val json = prefs.getString("order_list", null)
+            Log.i(TAG, "loadFromPreferences: json >> $json")
+            return if (json != null) gson.fromJson(
+                json,
+                CustomerOrders::class.java
+            ) else CustomerOrders()
+        }
+    }
 }

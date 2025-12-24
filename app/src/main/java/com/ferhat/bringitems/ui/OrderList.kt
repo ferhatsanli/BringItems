@@ -4,6 +4,7 @@ import CustomerOrders
 import Product
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
@@ -15,6 +16,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.material.icons.automirrored.filled.Send
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Done
+import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.Refresh
 
 
 @Composable
@@ -37,24 +41,40 @@ fun OrderList(theList: CustomerOrders, modifier: Modifier = Modifier) {
 @Composable
 fun ListOperationsBar(
     modifier: Modifier = Modifier,
+    onSaveButtonClicked: () -> Unit = {},
+    onLoadButtonClicked: () -> Unit = {},
     onShareButtonClicked: () -> Unit = {},
     onClearButtonClicked: () -> Unit = {}
 ) {
     Column(modifier = modifier) {
-        Row(
-            verticalAlignment = Alignment.Bottom,
+        FlowRow(
+//            verticalAlignment = Alignment.Bottom,
             horizontalArrangement = Arrangement.End,
             modifier = Modifier.fillMaxWidth()
         ) {
             CommonButton(
+                icon = Icons.Filled.Edit,
+                title = "Save",
+                onClick = onSaveButtonClicked,
+//                modifier = Modifier.weight(1f)
+            )
+            CommonButton(
+                icon = Icons.Filled.Refresh,
+                title = "Load",
+                onClick = onLoadButtonClicked,
+//                modifier = Modifier.weight(1f)
+            )
+            CommonButton(
                 icon = Icons.AutoMirrored.Filled.Send,
                 title = "Share",
-                onClick = onShareButtonClicked
+                onClick = onShareButtonClicked,
+//                modifier = Modifier.weight(1f)
             )
             CommonButton(
                 icon = Icons.Filled.Delete,
                 title = "Clear",
-                onClick = onClearButtonClicked
+                onClick = onClearButtonClicked,
+//                modifier = Modifier.weight(1f)
             )
         }
     }

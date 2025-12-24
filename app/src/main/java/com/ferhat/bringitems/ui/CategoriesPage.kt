@@ -56,7 +56,7 @@ fun CategoryCard(
     }
 }
 
-@Preview(showBackground = true)
+//@Preview(showBackground = true)
 @Composable
 fun PreviewCategoriesPage() {
     val theList: List<ProductCategory> = ProductCategory.entries

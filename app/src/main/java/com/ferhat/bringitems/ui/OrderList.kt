@@ -1,14 +1,14 @@
-package ui
+package com.ferhat.bringitems.ui
 
 import CustomerOrders
 import Product
-import android.content.Context
-import androidx.compose.foundation.background
+import android.content.res.Resources
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -17,8 +17,6 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -27,14 +25,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import to2Digits
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.automirrored.filled.Send
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Share
-import androidx.compose.runtime.ComposeCompilerApi
-import androidx.compose.runtime.MutableState
-import com.ferhat.bringitems.exportTheList
-import com.ferhat.bringitems.shareText
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material3.CardDefaults
+import androidx.compose.ui.graphics.vector.ImageVector
 
 
 @Composable
@@ -46,7 +43,7 @@ fun OrderList(theList: CustomerOrders, modifier: Modifier = Modifier) {
     )
     {
         items(
-            items = theList.getOrdersList(),
+            items = theList.getSortedOrdersList(),
             key = { it.first }
         ) { (prod, amount) ->
             OrderRow(theList, prod, amount, true)
@@ -61,59 +58,113 @@ fun OrderRow(
     amount: Int,
     showDeleteButton: Boolean = true
 ) {
-    val fontSize = 22.sp
+    val fontSize = 20.sp
     val iconSize = 30.dp
-    Row(
-        modifier = Modifier.fillMaxWidth().padding(8.dp),
-        horizontalArrangement = Arrangement.SpaceBetween
-    )
-    {
-        Row {
-            Card(
-                modifier = Modifier
-                    .clickable {
-                        theList.plus(prod, updateRecentOrder = true)
-                    }
+    Card(
+        modifier = Modifier
+            .padding(8.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(8.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        )
+        {
+            // ADD AND MINUS BUTTONS
+            Row(
+                modifier = Modifier,
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                Icon(
-                    modifier = Modifier.size(iconSize),
-                    imageVector = Icons.Default.Add,
-                    contentDescription = "add",
-                    tint = Color.Green
-                )
-            }
-            Card(
-                modifier = Modifier
-                    .clickable {
-                        theList.minus(prod)
-                    }
-            ) {
-                Icon(
-                    modifier = Modifier.size(iconSize),
-                    imageVector = Icons.Default.ArrowDropDown,
-                    contentDescription = "subtract",
-                    tint = Color.Green
-                )
+                Card(
+                    modifier = Modifier
+                        .padding(8.dp)
+                        .clickable {
+                            theList.plus(prod, updateRecentOrder = true)
+                        },
+                    border = BorderStroke(2.dp, Color.Gray)
+                ) {
+                    Icon(
+                        modifier = Modifier.size(iconSize),
+                        imageVector = Icons.Filled.KeyboardArrowUp,
+                        contentDescription = "add",
+                        tint = Color.Black
+                    )
+                }
+                Card(
+                    modifier = Modifier
+                        .padding(8.dp)
+                        .clickable {
+                            theList.minus(prod)
+                        },
+                    border = BorderStroke(2.dp, Color.Gray)
+                ) {
+                    Icon(
+                        modifier = Modifier.size(iconSize),
+                        imageVector = Icons.Filled.KeyboardArrowDown,
+                        contentDescription = "subtract",
+                        tint = Color.Black
+                    )
+                }
+
             }
 
-        }
-//                Row(horizontalArrangement = Arrangement.SpaceBetween){
-//                }
-        Text(text = prod.title, fontSize = fontSize)
-        Text(text = "x$amount", fontSize = fontSize)
-        Card(
-            modifier = Modifier
-                .clickable {
-                    theList.minus(prod, amount)
+            // TITLE AND AMOUNT
+            Row(
+                modifier = Modifier.fillMaxWidth().weight(1f),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(
+//                    modifier = Modifier.padding(8.dp),
+                        text = prod.title,
+                        fontSize = fontSize,
+                    )
                 }
-        ) {
-            if (showDeleteButton) {
-                Icon(
-                    modifier = Modifier.size(iconSize),
-                    imageVector = Icons.Default.Close,
-                    contentDescription = "remove",
-                    tint = Color.Red,
+                Text(
+//                    modifier = Modifier.padding(8.dp),
+                    text = "x$amount",
+                    fontSize = fontSize,
+                    softWrap = false
                 )
+            }
+            // DELETE BUTTON
+            if (showDeleteButton) {
+                Row(
+                    modifier = Modifier,
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+//                    CommonButton(
+//                        icon = Icons.Default.Close,
+//                        onClick = {
+//                            theList.minus(prod, amount)
+//                        }
+//                    )
+                    Card(
+                        modifier = Modifier
+                            .padding(8.dp)
+//                        .weight(0f)
+                            .clickable {
+                                theList.minus(prod, amount)
+                            },
+                        border = BorderStroke(2.dp, Color.Gray)
+                    ) {
+
+                        Icon(
+                            modifier = Modifier
+                                .size(iconSize)
+                                .fillMaxSize(),
+                            imageVector = Icons.Default.Close,
+                            contentDescription = "remove",
+                            tint = Color.Red,
+                        )
+
+                    }
+                }
             }
         }
     }
@@ -125,59 +176,58 @@ fun ListOperationsBar(
     onShareButtonClicked: () -> Unit = {},
     onClearButtonClicked: () -> Unit = {}
 ) {
-    val fontSize = 20.sp // 16
-    val iconSize = 24.dp // 20
     Column(modifier = modifier) {
         Row(
             verticalAlignment = Alignment.Bottom,
             horizontalArrangement = Arrangement.End,
             modifier = Modifier.fillMaxWidth()
         ) {
-            Card(
-                modifier = Modifier
-                    .clickable(onClick = onShareButtonClicked)
+            CommonButton(
+                icon = Icons.AutoMirrored.Filled.Send,
+                title = "Share",
+                onClick = onShareButtonClicked
             )
-            {
-                Row(
-                    modifier = Modifier.padding(8.dp)
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Share,
-                        contentDescription = "share",
-                        tint = Color.Yellow,
-                        modifier = Modifier.size(iconSize)
-                    )
-                    Text(
-                        text = "Share",
-                        fontSize = fontSize,
-                        modifier = Modifier.padding(start = 8.dp)
-                    )
-                }
-            }
-            Card(modifier = Modifier.clickable(onClick = onClearButtonClicked)) {
-                Row(modifier = Modifier.padding(8.dp)) {
-                    Icon(
-                        imageVector = Icons.Default.Delete,
-                        contentDescription = "clear",
-                        tint = Color.Yellow,
-                        modifier = Modifier.size(iconSize)
-                    )
-                    Text(
-                        text = "Clear",
-                        fontSize = fontSize,
-                        modifier = Modifier.padding(start = 8.dp)
-                    )
-                }
-            }
+            CommonButton(
+                icon = Icons.Filled.Delete,
+                title = "Clear",
+                onClick = onClearButtonClicked
+            )
         }
     }
 
 }
 
-@Preview(showBackground = true)
 @Composable
-fun PreviewListOperationsBar() {
-    ListOperationsBar()
+fun CommonButton(modifier: Modifier = Modifier,
+                 icon: ImageVector,
+                 title: String = "",
+                 tintColor: Color = Color.Black,
+                 backColor: Color = Color.Gray,
+                 onClick: () -> Unit = {}
+) {
+    Card(
+        modifier = modifier
+            .clickable(onClick = onClick),
+        border = BorderStroke(2.dp, backColor)
+    ) {
+        Row(
+            modifier = Modifier.padding(8.dp)
+        ) {
+            Icon(
+                imageVector = icon,
+                contentDescription = title.lowercase(),
+                tint = tintColor,
+//                modifier = Modifier.size(24.dp)
+            )
+            if (title.isNotEmpty()) {
+                Text(
+                    text = title,
+                    fontSize = 20.sp,
+                    modifier = Modifier.padding(start = 8.dp)
+                )
+            }
+        }
+    }
 }
 
 @Preview(showBackground = true)
@@ -186,5 +236,13 @@ fun PreviewOrderList() {
     val theList = CustomerOrders()
     theList.plus(Product.FANTA_EXOTIC, 3)
     theList.plus(Product.CHICKEN_POPS, 2)
+    theList.plus(Product.BUFFALO_SAUCE_BOTTLE, 2)
+    theList.plus(Product.CHOPPED_GARLIC_BOTTLE, 1)
     OrderList(theList)
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PreviewListOperationsBar() {
+    ListOperationsBar()
 }

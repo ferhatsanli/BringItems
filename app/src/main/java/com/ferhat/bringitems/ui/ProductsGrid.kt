@@ -23,10 +23,10 @@ fun ProductsGrid(
     LazyVerticalGrid(
         columns = GridCells.Fixed(3),
         modifier = modifier
-            .background(MaterialTheme.colorScheme.secondary)
+//            .background(MaterialTheme.colorScheme.secondary)
             .fillMaxWidth()
     ) {
-        items(inputItems) { item ->
+        items(inputItems.sortedBy { it.name }) { item ->
             ProductCard(item, onProductClicked = onProductClicked)
         }
     }

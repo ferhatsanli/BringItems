@@ -1,5 +1,7 @@
+import android.util.Log
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
+import kotlin.collections.sortedBy
 
 class CustomerOrders {
     private val orders = mutableStateMapOf<Product, Int>()
@@ -21,7 +23,7 @@ class CustomerOrders {
             if (it > 1) {
                 orders[product] = it - amount
             }
-            if (it == amount || it == 0){
+            if (it == amount || it == 0) {
                 orders.remove(product)
             }
             totalPrice.value -= product.price * amount
@@ -40,7 +42,15 @@ class CustomerOrders {
 
     fun getTotal(): Float = totalPrice.value
 
+    fun getSize(): Int = orders.size
     fun getOrders(): Map<Product, Int> = orders
 
     fun getOrdersList(): List<Pair<Product, Int>> = orders.toList()
+
+    fun getSortedOrdersList(): List<Pair<Product, Int>> = getOrdersList()
+        .sortedBy { it.first.name }
+            .groupBy { it.first.categories }
+            .entries
+            .sortedBy { it.key.first() }
+            .flatMap { it.value }
 }

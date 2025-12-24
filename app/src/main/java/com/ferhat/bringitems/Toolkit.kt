@@ -7,7 +7,7 @@ import android.content.Intent
 import androidx.compose.runtime.MutableState
 
 fun exportTheList(theList: MutableState<CustomerOrders>): String {
-    return theList.value.getOrdersList()
+    return theList.value.getSortedOrdersList()
         .joinToString(separator = "\n") { (product, amount) -> "${product.title} x$amount" }
 }
 

@@ -2,6 +2,7 @@ package com.ferhat.bringitems.ui
 
 import CustomerOrders
 import Product
+import android.content.Context
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -16,9 +17,11 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material.icons.filled.Remove
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -79,7 +82,8 @@ fun OrderRow(
     theList: CustomerOrders,
     prod: Product,
     amount: Int,
-    showDeleteButton: Boolean = true
+    showDeleteButton: Boolean = true,
+    context: Context? = null
 ) {
     val fontSize = 20.sp
     Card(
@@ -102,16 +106,18 @@ fun OrderRow(
             ) {
                 CommonButton(
                     modifier = Modifier.padding(end = 8.dp),
-                    icon = Icons.Filled.KeyboardArrowUp,
+                    icon = Icons.Default.Add,
                     onClick = {
                         theList.plus(prod, updateRecentOrder = true)
+                        context?.let{ theList.saveToPreferences(context) }
                     }
                 )
                 CommonButton(
                     modifier = Modifier.padding(end = 8.dp),
-                    icon = Icons.Filled.KeyboardArrowDown,
+                    icon = Icons.Default.Remove,
                     onClick = {
                         theList.minus(prod)
+                        context?.let{ theList.saveToPreferences(context) }
                     }
                 )
             }

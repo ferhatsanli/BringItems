@@ -181,6 +181,14 @@ enum class Product(
         title = "Chorizo",
         categories = listOf(ProductCategory.ALL, ProductCategory.CABINETS, ProductCategory.MEATS)
     ),
+    ANANAS(
+        title = "Ananas",
+        categories = listOf(ProductCategory.ALL, ProductCategory.CABINETS)
+    ),
+    SHOARMA(
+        title = "Shoarma",
+        categories = listOf(ProductCategory.ALL, ProductCategory.CABINETS, ProductCategory.MEATS)
+    ),
 
     // Sides
     CHICKEN_POPS(

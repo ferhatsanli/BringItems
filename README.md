@@ -16,11 +16,7 @@ This project is intentionally small and focused so reviewers can quickly underst
 
 ## Screenshots
 
-![Bring Items Screenshot 1](screenshots/Bring%20Items%20-%201.jpg)
-![Bring Items Screenshot 2](screenshots/Bring%20Items%20-%202.jpg)
-![Bring Items Screenshot 3](screenshots/Bring%20Items%20-%203.jpg)
-![Bring Items Screenshot 4](screenshots/Bring%20Items%20-%204.jpg)
-![Bring Items Screenshot 5](screenshots/Bring%20Items%20-%205.jpg)
+![Bring Items Screenshot 1](screenshots/Bring%20Items%20-%201.jpg) ![Bring Items Screenshot 2](screenshots/Bring%20Items%20-%202.jpg) ![Bring Items Screenshot 3](screenshots/Bring%20Items%20-%203.jpg) ![Bring Items Screenshot 4](screenshots/Bring%20Items%20-%204.jpg) ![Bring Items Screenshot 5](screenshots/Bring%20Items%20-%205.jpg)
 
 ---
 

@@ -141,7 +141,7 @@ fun OrderRow(
                         fontSize = fontSize,
                         color =
                             if (theList.isChecked(prod)) Color.Black
-                            else Color.White
+                            else Color.Unspecified
                     )
                 }
                 Text(
@@ -149,7 +149,7 @@ fun OrderRow(
                     fontSize = fontSize,
                     color =
                         if (theList.isChecked(prod)) Color.Black
-                        else Color.White,
+                        else Color.Unspecified,
                     softWrap = false
                 )
             }

@@ -24,6 +24,13 @@ This project is intentionally small and focused so reviewers can quickly underst
     <td><img src="screenshots/Bring%20Items%20-%204.jpg" alt="Bring Items Screenshot 4" width="200"></td>
     <td><img src="screenshots/Bring%20Items%20-%205.jpg" alt="Bring Items Screenshot 5" width="200"></td>
   </tr>
+  <tr>
+    <td><img src="screenshots/Bring%20Items%20-%20Night%20Mode%20-%201.jpg" alt="Bring Items Night Mode Screenshot 1" width="200"></td>
+    <td><img src="screenshots/Bring%20Items%20-%20Night%20Mode%20-%202.jpg" alt="Bring Items Night Mode Screenshot 2" width="200"></td>
+    <td><img src="screenshots/Bring%20Items%20-%20Night%20Mode%20-%203.jpg" alt="Bring Items Night Mode Screenshot 3" width="200"></td>
+    <td><img src="screenshots/Bring%20Items%20-%20Night%20Mode%20-%204.jpg" alt="Bring Items Night Mode Screenshot 4" width="200"></td>
+    <td><img src="screenshots/Bring%20Items%20-%20Night%20Mode%20-%205.jpg" alt="Bring Items Night Mode Screenshot 5" width="200"></td>
+  </tr>
 </table>
 
 ---

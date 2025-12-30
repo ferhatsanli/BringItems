@@ -88,7 +88,14 @@ fun OrderRow(
     val fontSize = 20.sp
     Card(
         modifier = Modifier
-            .padding(8.dp),
+            .padding(8.dp)
+            .clickable{
+                theList.check(prod)
+            },
+        colors = CardDefaults.cardColors(
+            containerColor =
+                if (theList.isChecked(prod)) Color.Green
+                else CardDefaults.cardColors().containerColor),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
         Row(
@@ -132,11 +139,17 @@ fun OrderRow(
                     Text(
                         text = prod.title,
                         fontSize = fontSize,
+                        color =
+                            if (theList.isChecked(prod)) Color.Black
+                            else Color.White
                     )
                 }
                 Text(
                     text = "x$amount",
                     fontSize = fontSize,
+                    color =
+                        if (theList.isChecked(prod)) Color.Black
+                        else Color.White,
                     softWrap = false
                 )
             }

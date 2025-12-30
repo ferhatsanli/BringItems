@@ -10,6 +10,7 @@ import java.io.Serializable
 val TAG = "BAKBURA"
 class CustomerOrders : Serializable {
     private val orders = mutableStateMapOf<Product, Int>()
+    private val checkList = mutableStateMapOf<Product, Boolean>()
     @Transient private var totalPrice = mutableStateOf(0.0f)
     @Transient private var recentOrder = mutableStateOf(Product.COCA_COLA)
     @Transient private var recentOrderAmount = mutableStateOf(0)
@@ -59,6 +60,11 @@ class CustomerOrders : Serializable {
         .sortedBy { it.key.first() }
         .flatMap { it.value }
 
+    fun check(prod: Product) {
+        checkList[prod] = !(checkList[prod] ?: false)
+    }
+
+    fun isChecked(prod: Product) = (checkList[prod] ?: false)
     fun saveToPreferences(context: Context) {
         if (orders.size > 0) {
             val prefs: SharedPreferences =

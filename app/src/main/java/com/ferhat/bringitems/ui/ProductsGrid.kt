@@ -1,6 +1,6 @@
-package ui
+package com.ferhat.bringitems.ui
 
-import Product
+import com.ferhat.bringitems.data.model.Product
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid

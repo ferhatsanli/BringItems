@@ -1,7 +1,7 @@
 package com.ferhat.bringitems.ui
 
-import CustomerOrders
-import Product
+import com.ferhat.bringitems.data.model.CustomerOrders
+import com.ferhat.bringitems.data.model.Product
 import android.content.Context
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image

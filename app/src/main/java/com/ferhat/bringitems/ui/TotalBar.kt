@@ -1,4 +1,4 @@
-package ui
+package com.ferhat.bringitems.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -9,7 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.sp
-import to2Digits
+import com.ferhat.bringitems.data.repository.to2Digits
 
 @Composable
 fun TotalBar(total: Float) {
@@ -25,4 +25,3 @@ fun TotalBar(total: Float) {
         }
     }
 }
-

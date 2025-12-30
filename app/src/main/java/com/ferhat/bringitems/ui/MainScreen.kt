@@ -1,6 +1,6 @@
 package com.ferhat.bringitems.ui
 
-import CustomerOrders
+import com.ferhat.bringitems.data.model.CustomerOrders
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
@@ -29,19 +29,19 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.ferhat.bringitems.ProductCategory
-import com.ferhat.bringitems.exportTheList
-import com.ferhat.bringitems.shareText
+import com.ferhat.bringitems.data.model.ProductCategory
+import com.ferhat.bringitems.data.repository.exportTheList
+import com.ferhat.bringitems.data.repository.shareText
 import com.ferhat.bringitems.ui.theme.BringItemsTheme
 import kotlinx.coroutines.launch
-import ui.ProductsGrid
+import com.ferhat.bringitems.ui.ProductsGrid
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen() {
     val TAG = "BAKBURA"
     BringItemsTheme {
-        val tabs = listOf("Products", "List")
+        val tabs = listOf("Products", "List", "Break")
         val pagerState = rememberPagerState(pageCount = { tabs.size })
         val scope = rememberCoroutineScope()
         val bringItemList = remember { mutableStateOf(CustomerOrders()) }
@@ -166,6 +166,10 @@ fun MainScreen() {
                             )
 
                         }
+                    }
+
+                    2 -> {
+
                     }
                 }
             }

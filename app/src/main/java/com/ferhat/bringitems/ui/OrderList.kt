@@ -1,7 +1,7 @@
 package com.ferhat.bringitems.ui
 
-import CustomerOrders
-import Product
+import com.ferhat.bringitems.data.model.CustomerOrders
+import com.ferhat.bringitems.data.model.Product
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow

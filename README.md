@@ -11,8 +11,8 @@ BringItems is a small, well-structured Android shopping/order list app built wit
 - Simple, production-like features: item quantity management, total calculation, share integration via Android `Intent`, and local persistence patterns (can be adapted to DataStore).
 - Category browsing added: users can filter products by category using a dedicated Categories page and a NavHost-based flow.
 - Navigation implemented with Jetpack Navigation (Compose) — NavHost with distinct destinations for categories and items demonstrates basic Navigation 3 concepts in Compose.
-
-This project is intentionally small and focused so reviewers can quickly understand your UI/UX and architecture choices.
+- The Card backgrounds now change to green when an item is checked, enhancing user experience by visually highlighting selected items and providing immediate feedback on interactions.
+- Conditional color changes implemented in the OrderRow composable, showcasing advanced state management and dynamic UI updates in Jetpack Compose for responsive design.
 
 ## Screenshots
 

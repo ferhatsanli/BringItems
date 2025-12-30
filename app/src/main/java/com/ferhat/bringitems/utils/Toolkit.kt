@@ -1,4 +1,4 @@
-package com.ferhat.bringitems.data.repository
+package com.ferhat.bringitems.utils
 
 import CustomerOrders
 import android.content.ActivityNotFoundException

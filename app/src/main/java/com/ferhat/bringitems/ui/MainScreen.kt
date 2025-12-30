@@ -30,11 +30,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.ferhat.bringitems.data.model.ProductCategory
-import com.ferhat.bringitems.data.repository.exportTheList
-import com.ferhat.bringitems.data.repository.shareText
+import com.ferhat.bringitems.utils.exportTheList
+import com.ferhat.bringitems.utils.shareText
 import com.ferhat.bringitems.ui.theme.BringItemsTheme
 import kotlinx.coroutines.launch
-import com.ferhat.bringitems.ui.ProductsGrid
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
